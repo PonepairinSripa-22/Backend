@@ -1,0 +1,48 @@
+import java.util. *;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine().trim(); // รับค่าสตริง เช่น [1,1,2,2,2,3]
+
+        // แปลงสตริงเป็น Array ของตัวเลข
+        input = input.replace("[", "").replace("]", "");
+        String[] tokens = input.split(",");
+        int[] birds = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            birds[i] = Integer.parseInt(tokens[i].trim());
+        }
+
+        // CODE HERE (ใช้ตัวแปร birds นำไปคำนวณต่อ)
+
+        // บรรทัด 1: สร้าง HashMap  (ชนิดของ key, ชนิดของ value)
+        HashMap<Integer, Integer> count = new HashMap < > ();
+
+        // บรรทัด 2: วนอ่านทีละตัวใน array
+        for (int b: birds) {
+            // บรรทัด 3: อ่านค่าเดิม (ถ้าไม่มีใช้ 0)
+            int size = count.getOrDefault(b, 0);
+            // บรรทัด 4: เก็บค่าใหม่
+            count.put(b, size + 1);
+        }
+        //System.out.println(count);
+
+        int best = 1;
+        for (int k: count.keySet()) {
+            int v = count.get(k);
+            if (v > best) {
+                best = v;
+            }
+        }
+        //System.out.println(best);
+
+        int answer = Integer.MAX_VALUE; //nteger.MAX_VALUE แทนจำนวนเต็มที่ใหญ่ที่สุดที่เก็บได้
+        for (int k : count.keySet()) { 
+            int v = count.get(k); 
+            if ( v == best && k < answer) { answer = k; }  //v == best (จำนวนต้องเท่ากับค่ามากที่สุด) และ k < answer (รหัสต้องน้อยกว่าตัวที่ดีที่สุดที่เจอมา)
+            } 
+            System.out.println(answer);
+
+        scanner.close();
+    }
+}
