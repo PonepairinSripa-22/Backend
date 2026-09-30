@@ -10,6 +10,8 @@
 Input: [1,1,2,2,2,3]
 Expected Output: 2*/
 
+//-----------------Code-------------------//
+
 import java.util. *;
 
 public class Main {
