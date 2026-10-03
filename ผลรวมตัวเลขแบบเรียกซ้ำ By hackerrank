@@ -1,0 +1,54 @@
+import java.io.*;
+import static java.util.stream.Collectors.joining;
+
+class Result {
+    public static int superDigit(String n, int k) {
+        long sum = 0;
+        for (int i = 0; i < n.length(); i++) {
+            sum += n.charAt(i) - '0';    // 9875
+        }                               //--รอบแรก--                 //--รอบสอง--                   //--รอบสาม--          //--รอบลูปในจบ--
+        long total = sum * k;           // total = 29 * 4
+        while (total >= 10){            // 116 >= 10                                                                                          // 8 >= 10 เป็น false ออกลูป
+            long next = 0;                                          // next = 6                    // next = 7          // next = 8
+            long x = total;             // x = 116                  // x = 11                      // x = 1             // x = 0
+            while (x > 0) {             // 116 > 0                  // 11 > 0                      // 1 > 0             // 0 > 0 เป็น false
+                next += x % 10;         // 0 += 116 % 10 เหลือ 6     // 6 += 11 % 10 เหลือ 1 รวม 7    // 7 += 1 % 10 รวม 8
+                x = x / 10;             // 116 = 116 / 10 เหลือ 11   // 11 = 11 / 10 เหลือ 1         // 1 = 1 / 10 เหลือ 0
+            }
+            total = next;                                                                                               // total = next
+        }
+            return (int) total;                                                                                                               // return 8
+
+        }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        // BufferedReader ครอบอีกชั้นเพื่อให้อ่านได้ ทีละบรรทัด ด้วย readLine() (ที่เรียกว่า Buffered เพราะมันเก็บข้อมูลพักไว้ก่อน เร็วกว่าการอ่านทีละตัวอักษร)
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in)); // InputStreamReader แปลงข้อมูลดิบให้เป็นตัวอักษร
+        //BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH"))); บรรทัดนี้เอาไว้ส่ง hackerrang และลบบรรทัดต่อไป
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        String n = firstMultipleInput[0]; //n = firstMultipleInput[0] ได้ "148" (เก็บเป็น String เพราะ n ยาวได้ 100,000 หลัก)
+
+        int k = Integer.parseInt(firstMultipleInput[1]); // k = Integer.parseInt(firstMultipleInput[1]) เอา "3" (ข้อความ) มาแปลงเป็นจำนวนเต็ม 3
+
+        int result = Result.superDigit(n, k); //เรียกฟังก์ชัน
+
+        bufferedWriter.write(String.valueOf(result)); // String.valueOf(result) แปลงเลขเป็นข้อความ เพราะ write รับข้อความ
+        bufferedWriter.newLine(); // newLine() ขึ้นบรรทัดใหม่หลังคำตอบ
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+/*
+    x % 10 คือ เศษจากการหาร 10 ซึ่งก็คือ หลักขวาสุด ของ x เช่น 307 % 10 ได้ 7
+    x / 10 เมื่อ x เป็นจำนวนเต็ม คือ ตัดหลักขวาสุดทิ้ง เช่น 307 / 10 ได้ 30
+    readLine()	อ่านมา 1 บรรทัด	"148 3"
+    replaceAll("\\s+$", "")	ตัดช่องว่าง/ขึ้นบรรทัดที่ ท้าย สตริงทิ้ง (\\s+ คือช่องว่างตั้งแต่ 1 ตัวขึ้นไป, $ คือท้ายข้อความ)	"148 3"
+	split(" ")	หั่นสตริงที่ทุกช่องว่าง ได้เป็น array	["148", "3"]
+*/
